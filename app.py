@@ -3,19 +3,20 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-# concept: *databases* for persisting data
+# concept: *relational databases* for persisting data
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class Todo(db.Model):
+    # concept: *id* for uniquely identifying data
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     complete = db.Column(db.Boolean)
 
+# concept: *decorators* for adding functionality to existing code
 @app.route('/add', methods=['POST'])
 def add():
-    # concept: *requests* for handling client requests
     title = request.form.get('title')
     new_todo = Todo(title=title, complete=False)
     db.session.add(new_todo)
